@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+{% block title %}Игра {{ game_id }}{% endblock %}
+{% block char_button %}
+    <button class="btn btn-white mt-1 float-right has_tooltip" type="button" data-toggle="modal" data-target="#right-panel"
+            data-placement="left" title="Панель персонажа">
+        <div class="gamb-line"></div>
+        <div class="gamb-line"></div>
+        <div class="gamb-line"></div>
+    </button>
+{% endblock %}
+{% block char_panel %}
+    <div class="modal fade" id="right-panel" tabindex="-1" role="dialog" aria-labelledby="charModalScrollableTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="charModalScrollableTitle">Панель персонажа</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Панель персонажа
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
