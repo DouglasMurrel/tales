@@ -32,10 +32,11 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
     private $passwordEncoder;
 
     private $logger;
+    private $security;
 
     public function __construct(EntityManagerInterface $entityManager, UrlGeneratorInterface $urlGenerator,
                                 CsrfTokenManagerInterface $csrfTokenManager, UserPasswordEncoderInterface $passwordEncoder,
-                                LoggerInterface $myLogger)
+                                LoggerInterface $myLogger, Security $security)
     {
         $this->entityManager = $entityManager;
         $this->urlGenerator = $urlGenerator;
@@ -43,10 +44,13 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
         $this->passwordEncoder = $passwordEncoder;
 
         $this->logger = $myLogger;
+        $this->security = $security;
     }
 
     public function supports(Request $request)
     {
+        if($this->security->getUser())return false;
+
         return 'app_login' === $request->attributes->get('_route')
             && $request->isMethod('POST');
     }
@@ -104,6 +108,11 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
 
         // For example : return new RedirectResponse($this->urlGenerator->generate('some_route'));
         throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
+    }
+
+    public function supportsRememberMe()
+    {
+        return true;
     }
 
     protected function getLoginUrl()
