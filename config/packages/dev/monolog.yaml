@@ -6,7 +6,7 @@ monolog:
             path: "%kernel.logs_dir%/%kernel.environment%.log"
             level: debug
             channels: ["!event"]
-        login:
+        my_handler:
             type: stream
             path: "%kernel.project_dir%/log/%kernel.environment%.event.log"
             level: debug

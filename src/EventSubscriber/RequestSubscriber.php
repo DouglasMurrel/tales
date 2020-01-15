@@ -30,6 +30,8 @@ class RequestSubscriber implements EventSubscriberInterface
             return;
         }
 
+        $this->logger->debug("RequestSubscr");
+
         $uri = $request->getUri();
         if(!preg_match('/\/login$/',$uri) && !preg_match('/\/logout$/',$uri)) {
             $this->saveTargetPath($this->session, 'main', $uri);

@@ -24,6 +24,10 @@
 {% block main_panel %}
     <h1 class="h3 mb-3 font-weight-normal">Регистрация</h1>
 
+    {% if error %}
+        <div class="alert alert-danger">{{ error }}</div>
+    {% endif %}
+
     {{ form_start(registrationForm) }}
         {{ form_widget(registrationForm.email,{'attr':{'class':'form-control','autocomplete':'off'}}) }}
         {{ form_widget(registrationForm.plainPassword,{'attr':{'class':'form-control','autocomplete':'off'}}) }}

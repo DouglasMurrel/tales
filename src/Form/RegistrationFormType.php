@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\User;
+use Monolog\Logger;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -12,9 +13,18 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use App\Form\EventSubscriber\FormEventSubscriber;
+use Psr\Log\LoggerInterface;
 
 class RegistrationFormType extends AbstractType
 {
+    private $logger;
+
+    public function __construct(LoggerInterface $myLogger)
+    {
+        $this->logger = $myLogger;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -35,7 +45,7 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ]
             ])
-        ;
+            ->addEventSubscriber(new FormEventSubscriber($this->logger));
     }
 
     public function configureOptions(OptionsResolver $resolver)
