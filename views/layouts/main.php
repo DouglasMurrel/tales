@@ -14,67 +14,85 @@ AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
-<html lang="<?= Yii::$app->language ?>">
+<html>
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
-    <?php $this->head() ?>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <style>
+        html{
+            height: 100%;
+        }
+        body {
+            background-color: #BFC9CC;
+            height: 100%;
+        }
+        .container-lg{
+            background-color: white;
+            height: 100%;
+        }
+        #top{
+            height:50px;
+        }
+        @media (min-width: 960px) {
+            .collapse.dont-collapse-lg {
+                display: block;
+                height: auto !important;
+                visibility: visible;
+            }
+        }
+        @media (min-width: 960px) {
+            .dont-show-lg {
+                display: none;
+            }
+        }
+        .gamb-line {
+            width: 36px;
+            height: 5px;
+            background-color: #000;
+            margin: 5px 0;
+            transition: 0.3s;
+        }
+    </style>
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="//stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </head>
 <body>
 <?php $this->beginBody() ?>
-
-<div class="wrap">
-    <?php
-    NavBar::begin([
-        'brandLabel' => Yii::$app->name,
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
-        ],
-    ]);
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
-            Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/site/login']]
-            ) : (
-                '<li>'
-                . Html::beginForm(['/site/logout'], 'post')
-                . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->username . ')',
-                    ['class' => 'btn btn-link logout']
-                )
-                . Html::endForm()
-                . '</li>'
-            )
-        ],
-    ]);
-    NavBar::end();
-    ?>
-
-    <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
-        <?= Alert::widget() ?>
-        <?= $content ?>
+<div class="container-lg">
+    <div class="row">
+        <? if(!Yii::$app->user->isGuest){ ?>
+        <div class="col" id="top">
+            <button class="btn btn-white mt-1 dont-show-lg has_tooltip" type="button" data-toggle="collapse" data-target="#left-panel" aria-expanded="false"
+                    aria-controls="left-panel" title="Меню" data-placement="right">
+                <div class="gamb-line"></div>
+                <div class="gamb-line"></div>
+                <div class="gamb-line"></div>
+            </button>
+            <? if(isset($this->blocks['char_button'])){ ?>
+                <?=$this->blocks['char_button']?>
+            <? } ?>
+        </div>
+        <? } ?>
+    </div>
+    <div class="row" id="main_container">
+        <? if(!Yii::$app->user->isGuest){ ?>
+        <div class="col collapse dont-collapse-lg" id="left-panel">
+            <a href="/logout">Выйти</a>
+        </div>
+        <? } ?>
+        <div class="col" id="main-panel">
+            <?=$content?>
+        </div>
+        <? if(isset($this->blocks['char_panel'])){ ?>
+            <?=$this->blocks['char_panel']?>
+        <? } ?>
     </div>
 </div>
-
-<footer class="footer">
-    <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
-
-        <p class="pull-right"><?= Yii::powered() ?></p>
-    </div>
-</footer>
-
 <?php $this->endBody() ?>
 </body>
 </html>

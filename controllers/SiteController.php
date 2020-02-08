@@ -18,6 +18,7 @@ class SiteController extends Controller
     public function behaviors()
     {
         return [
+            /*
             'access' => [
                 'class' => AccessControl::className(),
                 'only' => ['logout'],
@@ -35,6 +36,7 @@ class SiteController extends Controller
                     'logout' => ['post'],
                 ],
             ],
+            */
         ];
     }
 
@@ -61,7 +63,9 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        Yii::debug('aaaaa');
+        $model = new LoginForm();
+        return $this->render('index',['model' => $model]);
     }
 
     /**
@@ -81,7 +85,7 @@ class SiteController extends Controller
         }
 
         $model->password = '';
-        return $this->render('login', [
+        return $this->render('index', [
             'model' => $model,
         ]);
     }

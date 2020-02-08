@@ -2,10 +2,12 @@
 
 namespace app\models;
 
-class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
+use yii\db\ActiveRecord;
+
+class User extends ActiveRecord implements \yii\web\IdentityInterface
 {
     public $id;
-    public $username;
+    public $email;
     public $password;
     public $authKey;
     public $accessToken;
@@ -13,14 +15,14 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
     private static $users = [
         '100' => [
             'id' => '100',
-            'username' => 'admin',
+            'email' => 'admin@yandex.ru',
             'password' => 'admin',
             'authKey' => 'test100key',
             'accessToken' => '100-token',
         ],
         '101' => [
             'id' => '101',
-            'username' => 'demo',
+            'email' => 'demo@yandex.ru',
             'password' => 'demo',
             'authKey' => 'test101key',
             'accessToken' => '101-token',
@@ -59,7 +61,7 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
     public static function findByUsername($username)
     {
         foreach (self::$users as $user) {
-            if (strcasecmp($user['username'], $username) === 0) {
+            if (strcasecmp($user['email'], $username) === 0) {
                 return new static($user);
             }
         }
