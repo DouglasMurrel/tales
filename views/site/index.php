@@ -8,6 +8,8 @@ use yii\widgets\Pjax;
 
 $this->title = 'Главная страница';
 ?>
+<link rel="stylesheet" href="/css/authchoice.css">
+<script src="/js/authchoice.js"></script>
 <div class="site-index">
 
     <div class="body-content">
@@ -32,6 +34,11 @@ $this->title = 'Главная страница';
                         <div class="form-group">
                             <?= Html::submitButton('Войти', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
                         </div>
+
+                        <?= yii\authclient\widgets\AuthChoice::widget([
+                            'baseAuthUrl' => ['site/auth'],
+                            'popupMode' => false,
+                        ]) ?>
 
                     <?php
                     ActiveForm::end();

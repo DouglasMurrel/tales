@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
 class User extends ActiveRecord implements \yii\web\IdentityInterface
@@ -74,5 +75,12 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
     public function validatePassword($password)
     {
         return \Yii::$app->security->validatePassword($password, $this->password);
+    }
+
+    /**
+     * @return ActiveQuery
+     */
+    public function getServices(){
+        return $this->hasMany(UserService::className(), ['id_user' => 'id'])->inverseOf('user');
     }
 }
