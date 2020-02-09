@@ -26,6 +26,7 @@ class RegisterForm extends Model
         return [
             // username and password are both required
             [['email', 'password', 'password2'], 'required'],
+            ['email', 'email'],
             ['rememberMe', 'boolean'],
             ['email', 'unique', 'targetClass' => User::className(),  'message' => 'Пользователь с таким email уже существует'],
             ['password2', 'validatePassword'],
@@ -64,19 +65,5 @@ class RegisterForm extends Model
             }
         }
         return false;
-    }
-
-    /**
-     * Finds user by [[username]]
-     *
-     * @return User|null
-     */
-    public function getUser()
-    {
-        if ($this->_user === false) {
-            $this->_user = User::findByUsername($this->email);
-        }
-
-        return $this->_user;
     }
 }

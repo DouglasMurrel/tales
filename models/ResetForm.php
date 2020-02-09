@@ -11,14 +11,11 @@ use yii\base\Model;
  * @property User|null $user This property is read-only.
  *
  */
-class LoginForm extends Model
+class ResetForm extends Model
 {
     public $email;
     public $password;
-    public $rememberMe = true;
-
-    private $_user = false;
-
+    public $password2;
 
     /**
      * @return array the validation rules.
@@ -27,12 +24,8 @@ class LoginForm extends Model
     {
         return [
             // username and password are both required
-            [['email', 'password'], 'required'],
-            ['email', 'email'],
-            // rememberMe must be a boolean value
-            ['rememberMe', 'boolean'],
-            // password is validated by validatePassword()
-            ['password', 'validatePassword'],
+            [['password', 'password2'], 'required'],
+            ['password2', 'validatePassword'],
         ];
     }
 
@@ -46,10 +39,8 @@ class LoginForm extends Model
     public function validatePassword($attribute, $params)
     {
         if (!$this->hasErrors()) {
-            $user = $this->getUser();
-
-            if (!$user || !$user->validatePassword($this->password)) {
-                $this->addError($attribute, 'Неверный e-mail или пароль.');
+            if ($this->password!=$this->password2) {
+                $this->addError($attribute, 'Введенные пароли не совпадают.');
             }
         }
     }
@@ -58,25 +49,16 @@ class LoginForm extends Model
      * Logs in a user using the provided username and password.
      * @return bool whether the user is logged in successfully
      */
-    public function login()
+    public function reset()
     {
         if ($this->validate()) {
-            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600*24*30 : 0);
+            $user = User::findByUsername($this->email);
+            $user->password = Yii::$app->security->generatePasswordHash($this->password);
+            $user->passwordHash = '';
+            if($user->save()) {
+                return "Пароль успешно изменен!<br>Теперь вы можете войти на сайт <a href='/' data-pjax='0'>здесь</a>";
+            }
         }
         return false;
-    }
-
-    /**
-     * Finds user by [[username]]
-     *
-     * @return User|null
-     */
-    public function getUser()
-    {
-        if ($this->_user === false) {
-            $this->_user = User::findByUsername($this->email);
-        }
-
-        return $this->_user;
     }
 }

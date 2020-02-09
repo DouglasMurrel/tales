@@ -4,6 +4,7 @@
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use yii\widgets\Pjax;
 
 $this->title = 'Главная страница';
 ?>
@@ -46,7 +47,7 @@ $this->title = 'Главная страница';
                         <?= $form->field($modelRegister, 'password2', ['inputOptions' => ['autocomplete' => 'new-password']])->passwordInput()->label('Повторите пароль') ?>
 
                         <div class="form-group">
-                            <?= Html::submitButton('Зарегистрироваться', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+                            <?= Html::submitButton('Зарегистрироваться', ['class' => 'btn btn-primary', 'name' => 'register-button']) ?>
                         </div>
 
                         <?php
@@ -54,7 +55,32 @@ $this->title = 'Главная страница';
                         ?>
                     </div>
                     <div role="tabpanel" class="tab-pane<?if($active=='recover'){?> active<?}?>" id="recover">
-222
+                        <?php
+                        Pjax::begin([]);
+                        $form = ActiveForm::begin(['id' => 'recover-form','action'=>'recover','options' => ['data' => ['pjax' => true]]]);
+                        ?>
+
+                        <?= $form->field($modelRecover, 'email', ['enableAjaxValidation' => true])->input('email')->label('EMail'); ?>
+                        <div class="form-group">
+                            <?= Html::submitButton('Сбросить пароль', ['class' => 'btn btn-primary', 'name' => 'recover-button']) ?>
+                        </div>
+                        <div id="progress" style="display: none">Минуту...</div>
+
+                        <?php
+                        ActiveForm::end();
+                        Pjax::end();
+                        ?>
+                        <script>
+                            $(function () {
+                                $(document).on('pjax:send', function() {
+                                    $(document).css('cursor','wait');
+                                    $('#progress').show();
+                                }).on('pjax:complete', function() {
+                                    $(document).css('cursor','default');
+                                    $('#progress').hide();
+                                })
+                            })
+                        </script>
                     </div>
                 </div>
             </div>
