@@ -63,6 +63,17 @@ $config = [
                 'reset/<hash>/<email>' => 'site/reset',
             ],
         ],
+        'authClientCollection' => [
+            'class' => 'yii\authclient\Collection',
+            'clients' => [
+                'vk' => [
+                    'class' => 'yii\authclient\clients\VKontakte',
+                    'clientId' => 'vk_client_id',
+                    'clientSecret' => 'vk_client_secret',
+                ],
+                // etc.
+            ],
+        ]
     ],
     'params' => $params,
 ];
