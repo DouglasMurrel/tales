@@ -11,14 +11,12 @@ use yii\base\Model;
  * @property User|null $user This property is read-only.
  *
  */
-class LoginForm extends Model
+class RegisterForm extends Model
 {
     public $email;
     public $password;
+    public $password2;
     public $rememberMe = true;
-
-    private $_user = false;
-
 
     /**
      * @return array the validation rules.
@@ -27,11 +25,10 @@ class LoginForm extends Model
     {
         return [
             // username and password are both required
-            [['email', 'password'], 'required'],
-            // rememberMe must be a boolean value
+            [['email', 'password', 'password2'], 'required'],
             ['rememberMe', 'boolean'],
-            // password is validated by validatePassword()
-            ['password', 'validatePassword'],
+            ['email', 'unique', 'targetClass' => User::className(),  'message' => 'Пользователь с таким email уже существует'],
+            ['password2', 'validatePassword'],
         ];
     }
 
@@ -45,10 +42,8 @@ class LoginForm extends Model
     public function validatePassword($attribute, $params)
     {
         if (!$this->hasErrors()) {
-            $user = $this->getUser();
-
-            if (!$user || !$user->validatePassword($this->password)) {
-                $this->addError($attribute, 'Неверный e-mail или пароль.');
+            if ($this->password!=$this->password2) {
+                $this->addError($attribute, 'Введенные пароли не совпадают.');
             }
         }
     }
@@ -57,10 +52,16 @@ class LoginForm extends Model
      * Logs in a user using the provided username and password.
      * @return bool whether the user is logged in successfully
      */
-    public function login()
+    public function register()
     {
         if ($this->validate()) {
-            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600*24*30 : 0);
+            $user = new User();
+            $user->email = $this->email;
+            $user->password = Yii::$app->security->generatePasswordHash($this->password);
+            $user->roles = 'user';
+            if($user->save()) {
+                return Yii::$app->user->login($user, $this->rememberMe ? 3600 * 24 * 30 : 0);
+            }
         }
         return false;
     }

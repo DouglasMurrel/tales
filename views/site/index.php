@@ -10,25 +10,60 @@ $this->title = 'Главная страница';
 <div class="site-index">
 
     <div class="body-content">
-        <div class="row">
-            <div class="col-lg-5">
-                <?php
-                if(Yii::$app->user->isGuest) {
-                    $form = ActiveForm::begin(['id' => 'login-form','action'=>'login']);
+        <? if(Yii::$app->user->isGuest) {?>
+            <div class="row justify-content-center mt-3 mb-3">
+                <ul class="nav nav-tabs col-lg-8" role="tablist">
+                    <li class="nav-item pr-4"><a class="nav-link<?if($active=='login'){?> active<?}?>" href="#login" aria-controls="login" role="tab" data-toggle="tab">Логин</a></li>
+                    <li class="nav-item pr-4"><a class="nav-link<?if($active=='register'){?> active<?}?>" href="#register" aria-controls="register" role="tab" data-toggle="tab">Регистрация</a></li>
+                    <li class="nav-item pr-4"><a class="nav-link<?if($active=='recover'){?> active<?}?>" href="#recover" aria-controls="recover" role="tab" data-toggle="tab">Вспомнить пароль</a></li>
+                </ul>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-8 tab-content">
+                    <div role="tabpanel" class="tab-pane<?if($active=='login'){?> active<?}?>" id="login">
+                    <?php
+                        $form = ActiveForm::begin(['id' => 'login-form','action'=>'login']);
                     ?>
 
-                    <?= $form->field($model, 'email')->input('email'); ?>
-                    <?= $form->field($model, 'password', ['inputOptions' => ['autocomplete' => 'new-password']])->passwordInput() ?>
+                    <?= $form->field($modelLogin, 'email')->input('email')->label('EMail'); ?>
+                    <?= $form->field($modelLogin, 'password', ['inputOptions' => ['autocomplete' => 'new-password']])->passwordInput()->label('Пароль') ?>
 
-                    <div class="form-group">
-                        <?= Html::submitButton('Войти', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
-                    </div>
+                        <div class="form-group">
+                            <?= Html::submitButton('Войти', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+                        </div>
 
                     <?php
                     ActiveForm::end();
-                }
-                ?>
+                    ?>
+                    </div>
+                    <div role="tabpanel" class="tab-pane<?if($active=='register'){?> active<?}?>" id="register">
+                        <?php
+                        $form = ActiveForm::begin(['id' => 'register-form','action'=>'register']);
+                        ?>
+
+                        <?= $form->field($modelRegister, 'email')->input('email')->label('EMail'); ?>
+                        <?= $form->field($modelRegister, 'password', ['inputOptions' => ['autocomplete' => 'new-password']])->passwordInput()->label('Введите пароль') ?>
+                        <?= $form->field($modelRegister, 'password2', ['inputOptions' => ['autocomplete' => 'new-password']])->passwordInput()->label('Повторите пароль') ?>
+
+                        <div class="form-group">
+                            <?= Html::submitButton('Зарегистрироваться', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+                        </div>
+
+                        <?php
+                        ActiveForm::end();
+                        ?>
+                    </div>
+                    <div role="tabpanel" class="tab-pane<?if($active=='recover'){?> active<?}?>" id="recover">
+222
+                    </div>
+                </div>
             </div>
-        </div>
+        <? } else{ ?>
+            <div class="row">
+                <div class="col-lg-8 tab-content">
+                    Здесь что-нибудь будет
+                </div>
+            </div>
+        <? } ?>
     </div>
 </div>

@@ -8,7 +8,7 @@ use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
-use app\models\ContactForm;
+use app\models\RegisterForm;
 
 class SiteController extends Controller
 {
@@ -63,9 +63,9 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        Yii::debug('aaaaa');
-        $model = new LoginForm();
-        return $this->render('index',['model' => $model]);
+        $modelLogin = new LoginForm();
+        $modelRegister = new RegisterForm();
+        return $this->render('index',['modelLogin' => $modelLogin,'modelRegister' => $modelRegister,'active' => 'login']);
     }
 
     /**
@@ -79,14 +79,43 @@ class SiteController extends Controller
             return $this->goHome();
         }
 
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+        $modelLogin = new LoginForm();
+        $modelRegister = new RegisterForm();
+        if ($modelLogin->load(Yii::$app->request->post()) && $modelLogin->login()) {
             return $this->goBack();
         }
 
-        $model->password = '';
+        $modelLogin->password = '';
         return $this->render('index', [
-            'model' => $model,
+            'modelLogin' => $modelLogin,
+            'modelRegister' => $modelRegister,
+            'active' => 'login'
+        ]);
+    }
+
+    /**
+     * Register action.
+     *
+     * @return Response|string
+     */
+    public function actionRegister()
+    {
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
+        $modelLogin = new LoginForm();
+        $modelRegister = new RegisterForm();
+        if ($modelRegister->load(Yii::$app->request->post()) && $modelRegister->register()) {
+            return $this->goBack();
+        }
+
+        $modelRegister->password = '';
+        $modelRegister->password2 = '';
+        return $this->render('index', [
+            'modelLogin' => $modelLogin,
+            'modelRegister' => $modelRegister,
+            'active' => 'register'
         ]);
     }
 
@@ -100,33 +129,5 @@ class SiteController extends Controller
         Yii::$app->user->logout();
 
         return $this->goHome();
-    }
-
-    /**
-     * Displays contact page.
-     *
-     * @return Response|string
-     */
-    public function actionContact()
-    {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
-            Yii::$app->session->setFlash('contactFormSubmitted');
-
-            return $this->refresh();
-        }
-        return $this->render('contact', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Displays about page.
-     *
-     * @return string
-     */
-    public function actionAbout()
-    {
-        return $this->render('about');
     }
 }
