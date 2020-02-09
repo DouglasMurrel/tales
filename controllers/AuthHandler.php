@@ -1,5 +1,6 @@
 <?php
-namespace app\components;
+
+namespace app\controllers;
 
 use app\models\UserService;
 use app\models\User;
