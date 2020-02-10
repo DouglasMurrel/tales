@@ -14,6 +14,7 @@ use app\models\LoginForm;
 use app\models\RegisterForm;
 use app\models\RecoverForm;
 use app\models\ResetForm;
+use app\components\AuthHandler;
 
 class SiteController extends Controller
 {

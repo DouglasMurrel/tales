@@ -1,6 +1,6 @@
 <?php
 
-namespace app\controllers;
+namespace app\components;
 
 use app\models\UserService;
 use app\models\User;
@@ -25,6 +25,7 @@ class AuthHandler
 
     public function handle()
     {
-//TODO: do something reaaly horrible here
+        $attributes = $this->client->getUserAttributes();
+        Yii::debug(print_r($attributes,1));
     }
 }

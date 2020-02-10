@@ -35,13 +35,13 @@ $this->title = 'Главная страница';
                             <?= Html::submitButton('Войти', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
                         </div>
 
-                        <?= yii\authclient\widgets\AuthChoice::widget([
-                            'baseAuthUrl' => ['site/auth'],
-                            'popupMode' => false,
-                        ]) ?>
-
                     <?php
                     ActiveForm::end();
+                    ?>
+                    <?=yii\authclient\widgets\AuthChoice::widget([
+                       'baseAuthUrl' => ['site/auth'],
+                       'popupMode' => false,
+                    ]);
                     ?>
                     </div>
                     <div role="tabpanel" class="tab-pane<?if($active=='register'){?> active<?}?>" id="register">
