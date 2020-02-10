@@ -38,11 +38,10 @@ $this->title = 'Главная страница';
                     <?php
                     ActiveForm::end();
                     ?>
-                    <?=yii\authclient\widgets\AuthChoice::widget([
+                    <?= yii\authclient\widgets\AuthChoice::widget([
                        'baseAuthUrl' => ['site/auth'],
                        'popupMode' => false,
-                    ]);
-                    ?>
+                    ])?>
                     </div>
                     <div role="tabpanel" class="tab-pane<?if($active=='register'){?> active<?}?>" id="register">
                         <?php
