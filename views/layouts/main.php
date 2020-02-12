@@ -23,12 +23,12 @@ AppAsset::register($this);
     <title><?= Html::encode($this->title) ?></title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <style>
-        html{
-            height: 100%;
+        html {
+            height:100%;
         }
         body {
+            height:100%;
             background-color: #BFC9CC;
-            height: 100%;
         }
         .container-lg{
             background-color: white;
@@ -56,6 +56,9 @@ AppAsset::register($this);
             margin: 5px 0;
             transition: 0.3s;
         }
+        ul {
+           padding: 0;
+        }
     </style>
     <script src="/js/jquery-3.4.1.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
@@ -65,7 +68,6 @@ AppAsset::register($this);
 <?php $this->beginBody() ?>
 <div class="container-lg">
     <div class="row">
-        <? if(!Yii::$app->user->isGuest){ ?>
         <div class="col" id="top">
             <button class="btn btn-white mt-1 dont-show-lg has_tooltip" type="button" data-toggle="collapse" data-target="#left-panel" aria-expanded="false"
                     aria-controls="left-panel" title="Меню" data-placement="right">
@@ -77,15 +79,17 @@ AppAsset::register($this);
                 <?=$this->blocks['char_button']?>
             <? } ?>
         </div>
-        <? } ?>
     </div>
     <div class="row" id="main_container">
-        <? if(!Yii::$app->user->isGuest){ ?>
-        <div class="col collapse dont-collapse-lg" id="left-panel">
+        <div class="col-2 collapse dont-collapse-lg" id="left-panel">
+            <div class="d-flex flex-column align-items-center pt-3">
+            <a href="/">Главная</a><br>
+            <? if(!Yii::$app->user->isGuest){ ?>
             <a href="/logout">Выйти</a>
+            <? } ?>
+            </div>
         </div>
-        <? } ?>
-        <div class="col" id="main-panel">
+        <div class="col-10" id="main-panel">
             <?=$content?>
         </div>
         <? if(isset($this->blocks['char_panel'])){ ?>

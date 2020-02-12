@@ -14,15 +14,15 @@ $this->title = 'Главная страница';
 
     <div class="body-content">
         <? if(Yii::$app->user->isGuest) {?>
-            <div class="row justify-content-center mt-3 mb-3">
-                <ul class="nav nav-tabs col-lg-8" role="tablist">
+            <div class="row justify-content-center mt-3 mb-3 ml-1">
+                <ul class="nav nav-tabs col-lg-12" role="tablist">
                     <li class="nav-item pr-4"><a class="nav-link<?if($active=='login'){?> active<?}?>" href="#login" aria-controls="login" role="tab" data-toggle="tab">Логин</a></li>
                     <li class="nav-item pr-4"><a class="nav-link<?if($active=='register'){?> active<?}?>" href="#register" aria-controls="register" role="tab" data-toggle="tab">Регистрация</a></li>
                     <li class="nav-item pr-4"><a class="nav-link<?if($active=='recover'){?> active<?}?>" href="#recover" aria-controls="recover" role="tab" data-toggle="tab">Вспомнить пароль</a></li>
                 </ul>
             </div>
-            <div class="row justify-content-center">
-                <div class="col-lg-8 tab-content">
+            <div class="row justify-content-center ml-1">
+                <div class="col-lg-12 tab-content">
                     <div role="tabpanel" class="tab-pane<?if($active=='login'){?> active<?}?>" id="login">
                     <?php
                         $form = ActiveForm::begin(['id' => 'login-form','action'=>'login']);

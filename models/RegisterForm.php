@@ -28,7 +28,7 @@ class RegisterForm extends Model
             [['email', 'password', 'password2'], 'required'],
             ['email', 'email'],
             ['rememberMe', 'boolean'],
-            ['email', 'unique', 'targetClass' => User::className(),  'message' => 'Пользователь с таким email уже существует'],
+            ['email', 'unique', 'targetClass' => User::className(),  'message' => "Пользователь с таким email уже существует.\n Возможно, вы уже входили через сетевой аккаунт, связанный с этим email?"],
             ['password2', 'validatePassword'],
         ];
     }
@@ -61,7 +61,7 @@ class RegisterForm extends Model
             $user->password = Yii::$app->security->generatePasswordHash($this->password);
             $user->roles = 'user';
             if($user->save()) {
-                return Yii::$app->user->login($user, $this->rememberMe ? 3600 * 24 * 30 : 0);
+                return Yii::$app->user->login($user, 3600 * 24 * 30);
             }
         }
         return false;

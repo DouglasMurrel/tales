@@ -223,4 +223,14 @@ class SiteController extends Controller
 
         return $this->goHome();
     }
+
+    /**
+     * Rules action.
+     *
+     * @return Response|string
+     */
+    public function actionRules()
+    {
+        return $this->render('rules');
+    }
 }
