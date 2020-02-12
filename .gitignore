@@ -36,4 +36,4 @@ php.bat
 composer.bat
 
 /config/db.php
-/config/web.php
+/config/mail.php
