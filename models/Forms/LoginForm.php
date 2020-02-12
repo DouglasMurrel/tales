@@ -1,9 +1,10 @@
 <?php
 
-namespace app\models;
+namespace app\models\Forms;
 
 use Yii;
 use yii\base\Model;
+use app\models\DB\User;
 
 /**
  * LoginForm is the model behind the login form.
@@ -11,12 +12,14 @@ use yii\base\Model;
  * @property User|null $user This property is read-only.
  *
  */
-class RegisterForm extends Model
+class LoginForm extends Model
 {
     public $email;
     public $password;
-    public $password2;
     public $rememberMe = true;
+
+    private $_user = false;
+
 
     /**
      * @return array the validation rules.
@@ -25,11 +28,12 @@ class RegisterForm extends Model
     {
         return [
             // username and password are both required
-            [['email', 'password', 'password2'], 'required'],
+            [['email', 'password'], 'required'],
             ['email', 'email'],
+            // rememberMe must be a boolean value
             ['rememberMe', 'boolean'],
-            ['email', 'unique', 'targetClass' => User::className(),  'message' => "Пользователь с таким email уже существует.\n Возможно, вы уже входили через сетевой аккаунт, связанный с этим email?"],
-            ['password2', 'validatePassword'],
+            // password is validated by validatePassword()
+            ['password', 'validatePassword'],
         ];
     }
 
@@ -43,8 +47,10 @@ class RegisterForm extends Model
     public function validatePassword($attribute, $params)
     {
         if (!$this->hasErrors()) {
-            if ($this->password!=$this->password2) {
-                $this->addError($attribute, 'Введенные пароли не совпадают.');
+            $user = $this->getUser();
+
+            if (!$user || !$user->validatePassword($this->password)) {
+                $this->addError($attribute, 'Неверный e-mail или пароль.');
             }
         }
     }
@@ -53,17 +59,25 @@ class RegisterForm extends Model
      * Logs in a user using the provided username and password.
      * @return bool whether the user is logged in successfully
      */
-    public function register()
+    public function login()
     {
         if ($this->validate()) {
-            $user = new User();
-            $user->email = $this->email;
-            $user->password = Yii::$app->security->generatePasswordHash($this->password);
-            $user->roles = 'user';
-            if($user->save()) {
-                return Yii::$app->user->login($user, 3600 * 24 * 30);
-            }
+            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600*24*30 : 0);
         }
         return false;
+    }
+
+    /**
+     * Finds user by [[username]]
+     *
+     * @return User|null
+     */
+    public function getUser()
+    {
+        if ($this->_user === false) {
+            $this->_user = User::findByUsername($this->email);
+        }
+
+        return $this->_user;
     }
 }

@@ -2,7 +2,7 @@
 
 namespace app\controllers;
 
-use app\models\User;
+use app\models\DB\User;
 use Composer\Util\Url;
 use Yii;
 use yii\bootstrap\ActiveForm;
@@ -10,10 +10,10 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
-use app\models\LoginForm;
-use app\models\RegisterForm;
-use app\models\RecoverForm;
-use app\models\ResetForm;
+use app\models\Forms\LoginForm;
+use app\models\Forms\RegisterForm;
+use app\models\Forms\RecoverForm;
+use app\models\Forms\ResetForm;
 use app\components\AuthHandler;
 
 class SiteController extends Controller

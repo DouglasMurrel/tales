@@ -89,6 +89,9 @@ $this->title = 'Главная страница';
                         </script>
                     </div>
                 </div>
+                <div class="col-lg-12">
+                <a href="/help/rules">Пользовательское соглашение</a>
+                </div>
             </div>
         <? } else{ ?>
             <div class="row">
