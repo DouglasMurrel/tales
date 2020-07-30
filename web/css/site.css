@@ -41,7 +41,8 @@ a.asc:after, a.desc:after {
     position: relative;
     top: 1px;
     display: inline-block;
-    font-family: 'Glyphicons Halflings';
+    /*font-family: 'Glyphicons Halflings';*/
+    font-family: FontAwesome;
     font-style: normal;
     font-weight: normal;
     line-height: 1;
@@ -49,27 +50,27 @@ a.asc:after, a.desc:after {
 }
 
 a.asc:after {
-    content: /*"\e113"*/ "\e151";
+    content: /*"\e113"*/ /*"\e151"*/ "\f15d";
 }
 
 a.desc:after {
-    content: /*"\e114"*/ "\e152";
+    content: /*"\e114"*/ /*"\e152"*/ "\f15e";
 }
 
 .sort-numerical a.asc:after {
-    content: "\e153";
+    content: /*"\e153";*/ "\f162";
 }
 
 .sort-numerical a.desc:after {
-    content: "\e154";
+    content: /*"\e154";*/ "\f163";
 }
 
 .sort-ordinal a.asc:after {
-    content: "\e155";
+    content: /*"\e155";*/ "\f160";
 }
 
 .sort-ordinal a.desc:after {
-    content: "\e156";
+    content: /*"\e156";*/ "\f161";
 }
 
 .grid-view th {
@@ -112,4 +113,38 @@ a.desc:after {
 
 .nav > li > form > button.logout:focus {
     outline: none;
+}
+
+body {
+    background-color: #BFC9CC;
+}
+.container-lg{
+    background-color: white;
+    min-height: 100vh;
+}
+#top{
+    height:50px;
+}
+@media (min-width: 960px) {
+    .dont-collapse-lg {
+        display: block !important;
+        height: auto !important;
+        visibility: visible;
+    }
+}
+@media (min-width: 960px) {
+    .dont-show-lg {
+        display: none !important;
+    }
+}
+.gamb-line {
+    width: 36px;
+    height: 5px;
+    background-color: #000;
+    margin: 5px 0;
+    transition: 0.3s;
+    display: block;
+}
+ul {
+    padding: 0;
 }

@@ -177,7 +177,7 @@ class SiteController extends Controller
     /**
      * Reset password action.
      *
-     * @return Response|string
+     * @return Response|string|array
      */
     public function actionReset()
     {

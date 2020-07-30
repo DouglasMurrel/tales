@@ -3,7 +3,7 @@
 /* @var $this yii\web\View */
 
 use yii\helpers\Html;
-use yii\bootstrap\ActiveForm;
+use yii\bootstrap4\ActiveForm;
 use yii\helpers\Url;
 use yii\widgets\Pjax;
 

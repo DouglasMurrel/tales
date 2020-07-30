@@ -8,6 +8,7 @@
 namespace app\assets;
 
 use yii\web\AssetBundle;
+use yii\web\View;
 
 /**
  * Main application asset bundle.
@@ -21,11 +22,18 @@ class AppAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/site.css',
+        '//stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css',
     ];
     public $js = [
+        "/js/jquery-3.4.1.min.js",
+        "//cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js",
+        "//stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js",
+    ];
+    public $jsOptions = [
+        'position' => View::POS_HEAD
     ];
     public $depends = [
         'yii\web\YiiAsset',
-        'yii\bootstrap\BootstrapAsset',
+        'yii\bootstrap4\BootstrapAsset',
     ];
 }
