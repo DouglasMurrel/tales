@@ -22,7 +22,7 @@ AppAsset::register($this);
 </head>
 <body>
 <?php $this->beginBody() ?>
-<div class="container-lg">
+<div class="container-lg mb-5">
     <div class="row">
         <div class="col" id="top">
             <button class="btn btn-white mt-1 dont-show-lg has_tooltip" type="button" data-toggle="collapse" data-target="#left-panel" aria-expanded="false"
@@ -39,8 +39,11 @@ AppAsset::register($this);
     <div class="row" id="main_container">
         <div class="col-2 collapse dont-collapse-lg" id="left-panel">
             <div class="d-flex flex-column align-items-center">
+            <? if(Yii::$app->user->isGuest){ ?>
             <a href="/">Главная</a><br>
-            <? if(!Yii::$app->user->isGuest){ ?>
+            <? }else{ ?>
+            <a href="/">Лента</a><br>
+            <a href="<?=Url::to(['game/create'])?>">Создать</a><br>
             <a href="<?=Url::to(['site/logout'])?>">Выйти</a>
             <? } ?>
             </div>

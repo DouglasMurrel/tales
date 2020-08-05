@@ -23,9 +23,11 @@ class AppAsset extends AssetBundle
     public $css = [
         'css/site.css',
         '//stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css',
+        '//use.fontawesome.com/releases/v5.7.1/css/all.css',
     ];
     public $js = [
         "/js/jquery-3.4.1.min.js",
+        "https://cdn.jsdelivr.net/npm/vue/dist/vue.js",
         "//cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js",
         "//stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js",
     ];
