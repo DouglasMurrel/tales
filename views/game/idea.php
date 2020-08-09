@@ -129,6 +129,7 @@ Vue.component('autocomplete',{
                     if (i < this.results.length && this.results[i].value === tag.value){
                         tag.id=this.results[i].id;
                     }
+                    tag.value = tag.value.toLowerCase();
                     this.arrayTags.push(tag);
                 }
                 this.isOpen = false;
