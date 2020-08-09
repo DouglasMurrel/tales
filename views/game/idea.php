@@ -39,9 +39,8 @@ use yii\web\JsExpression; ?>
                             <tag v-for="(tag, i) in arrayTags" :key="i" :tag="tag" @remove-tag="onRemoveTag"></tag>
                         </div>
                         <input type="text" id="idea-tags" class="form-control" autocomplete="off"
-                               @input="onChange" v-model="search" @keyup.down="onArrowDown"
-                               @keyup.up="onArrowUp" @keyup.enter="onEnter" @keydown.enter="preventSubmit"
-                               @keyup.space="onSpace">
+                               @input="onChange" :value="search" @keyup.down="onArrowDown"
+                               @keyup.up="onArrowUp" @keyup.enter="onEnter" @keydown.enter="preventSubmit">
                         <li id="newTagInput">
                             <div class="autocomplete">
                                 <ul id="autocomplete-results" v-show="isOpen" class="autocomplete-results">
@@ -55,7 +54,7 @@ use yii\web\JsExpression; ?>
                                 </ul>
                             </div>
                         </li>
-                        <small class="form-text text-muted">Введите теги через пробел (после каждого тега вводите пробел или выбирайте из выпадающего списка)</small>
+                        <small class="form-text text-muted">Введите теги (после каждого тега нажимайте enter или выбирайте тег из выпадающего списка)</small>
                     </div>
                 </ul>
             </div>
@@ -92,14 +91,8 @@ Vue.component('autocomplete',{
             }
         },
         onChange(e){
-            if(e.data === ' '){
-                search = this.search.trim();
-                tag = {'id': this.maxId, 'value': search};
-                this.maxId = this.maxId - 1;
-                this.addTag(tag);
-                return;
-            }
-            if((e.data === null || e.data.trim() !== '') && this.search.trim() !== '') {
+            this.search = e.target.value;
+            if((e.data === null || e.data.trim() !== '') && this.search.trim().length>=2) {
                 var vm = this;
                 vm.isLoading = true;
                 axios.get('<?=Url::to(['game/gettags'])?>?term=' + vm.search.trim())
@@ -158,9 +151,13 @@ Vue.component('autocomplete',{
             }
         },
         onEnter() {
-            if(this.results.length>0) {
-                if(this.arrowCounter===-1)this.arrowCounter=0;
+            if(this.results.length>0 && this.arrowCounter>=0) {
                 this.setResult(this.results[this.arrowCounter]);
+            }else{
+                search = this.search.trim();
+                tag = {'id': this.maxId, 'value': search};
+                this.maxId = this.maxId - 1;
+                this.addTag(tag);
             }
         },
         handleClickOutside(e) {

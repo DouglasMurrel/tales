@@ -32,16 +32,18 @@ class GameController extends \yii\web\Controller
             $idea->save(false);
 
             $tagsPost = Yii::$app->request->post('tag');
-            foreach($tagsPost as $tagPostKey=>$tagPostValue){
-                $tagPostValue = intval($tagPostValue);
-                $tagPostKey = strip_tags($tagPostKey);
-                if($tagPostValue>0)$tag = Tag::findOne($tagPostValue);
-                else{
-                    $tag = new Tag();
-                    $tag->name = $tagPostKey;
-                    $tag->save();
+            if($tagsPost) {
+                foreach ($tagsPost as $tagPostKey => $tagPostValue) {
+                    $tagPostValue = intval($tagPostValue);
+                    $tagPostKey = strip_tags($tagPostKey);
+                    if ($tagPostValue > 0) $tag = Tag::findOne($tagPostValue);
+                    else {
+                        $tag = new Tag();
+                        $tag->name = $tagPostKey;
+                        $tag->save();
+                    }
+                    $idea->link('tags', $tag);
                 }
-                $idea->link('tags', $tag);
             }
 
             return $this->redirect(Url::to(['/']));
