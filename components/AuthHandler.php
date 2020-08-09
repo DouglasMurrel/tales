@@ -55,6 +55,7 @@ class AuthHandler
     }
 
     private function _register($userService,$email=null){
+        $user = null;
         if($email)$user = User::findByUsername($email);
         else $email = $userService->id_service_user.'@'.$userService->service;
         if(!$user){

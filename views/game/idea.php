@@ -92,6 +92,13 @@ Vue.component('autocomplete',{
             }
         },
         onChange(e){
+            if(e.data === ' '){
+                search = this.search.trim();
+                tag = {'id': this.maxId, 'value': search};
+                this.maxId = this.maxId - 1;
+                this.addTag(tag);
+                return;
+            }
             if((e.data === null || e.data.trim() !== '') && this.search.trim() !== '') {
                 var vm = this;
                 vm.isLoading = true;
@@ -155,12 +162,6 @@ Vue.component('autocomplete',{
                 if(this.arrowCounter===-1)this.arrowCounter=0;
                 this.setResult(this.results[this.arrowCounter]);
             }
-        },
-        onSpace() {
-            search = this.search.trim();
-            tag = {'id': this.maxId, 'value': search};
-            this.maxId = this.maxId - 1;
-            this.addTag(tag);
         },
         handleClickOutside(e) {
             if (!this.$el.contains(e.target)) {
